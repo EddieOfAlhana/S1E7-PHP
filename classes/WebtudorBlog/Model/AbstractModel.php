@@ -20,7 +20,7 @@ abstract class AbstractModel {
 			//Create new connection with static settings
 			//$connection = new PDO('mysql:dbname=webtudorblog;host=localhost', 'root', '');
 
-            $connection = new PDO('sqlite:memory');
+            $connection = new PDO('sqlite::memory:');
 
 			//Set UTF8 character set so data isn't corrupted
 			//$connection->exec('SET NAMES utf8');
