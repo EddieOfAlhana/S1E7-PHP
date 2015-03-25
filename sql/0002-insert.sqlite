@@ -1,0 +1,5 @@
+INSERT INTO posts (created, slug, title, excerpt, content) VALUES (CURRENT_TIMESTAMP, 'test', 'Test post', 'Test excerpt', 'Test body');
+INSERT INTO posts (created, slug, title, excerpt, content) VALUES (CURRENT_TIMESTAMP, 'test1', 'Test post', 'Test excerpt', 'Test body');
+INSERT INTO posts (created, slug, title, excerpt, content) VALUES (CURRENT_TIMESTAMP, 'test2', 'Test post', 'Test excerpt', 'Test body');
+INSERT INTO posts (created, slug, title, excerpt, content) VALUES (CURRENT_TIMESTAMP, 'test3', 'Test post', 'Test excerpt', 'Test body');
+INSERT INTO posts (created, slug, title, excerpt, content) VALUES (CURRENT_TIMESTAMP, 'test4', 'Test post', 'Test excerpt', 'Test body');

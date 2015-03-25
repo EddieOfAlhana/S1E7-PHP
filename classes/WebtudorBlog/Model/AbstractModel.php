@@ -18,13 +18,18 @@ abstract class AbstractModel {
 	protected function getConnection() {
 		if (!self::$connection) {
 			//Create new connection with static settings
-			$connection = new PDO('mysql:dbname=webtudorblog;host=localhost', 'root', '');
+			//$connection = new PDO('mysql:dbname=webtudorblog;host=localhost', 'root', '');
+
+            $connection = new PDO('sqlite:memory');
 
 			//Set UTF8 character set so data isn't corrupted
-			$connection->exec('SET NAMES utf8');
+			//$connection->exec('SET NAMES utf8');
 
 			//Strict MySQL mode, reject invalid values
-			$connection->exec('SET SESSION sql_mode = "STRICT_ALL_TABLES"');
+			//$connection->exec('SET SESSION sql_mode = "STRICT_ALL_TABLES"');
+
+            $connection->exec(file_get_contents(PROJECT_ROOT . '/sql/0001-create.sqlite'));
+            $connection->exec(file_get_contents(PROJECT_ROOT . '/sql/0002-insert.sqlite'));
 
 			//Store connection in static variable
 			self::$connection = $connection;
@@ -51,6 +56,10 @@ abstract class AbstractModel {
 
 		//Prepare and execute SQL statement with parameters to avoid SQL injections
 		$preparedStatement = $connection->prepare($sql);
+        if (false === $preparedStatement) {
+            var_dump($connection->errorInfo());
+            die();
+        }
 		$preparedStatement->execute($params);
 
 		//In case of an error, throw a ModelException

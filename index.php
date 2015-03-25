@@ -1,19 +1,34 @@
 <?php
-
 use WebtudorBlog\Controller\AbstractController;
 use WebtudorBlog\Controller\ErrorController;
 
-/**
- * Automatically loads a class from the classes directory. Namespace\Classname becomes classes/Namespace/Classname.php
- *
- * @param string $className
- *
- * @return void
- */
-function __autoload($className) {
-	$file = __DIR__ . '/classes/' . strtr($className, array('\\' => DIRECTORY_SEPARATOR)) . '.php';
-	require($file);
+
+class Blog {
+    /**
+     * Automatically loads a class from the classes directory. Namespace\Classname becomes classes/Namespace/Classname.php
+     *
+     * @param string $className
+     *
+     * @return void
+     */
+    public function autoload($className) {
+        $file = __DIR__ . '/classes/' . strtr($className, array('\\' => DIRECTORY_SEPARATOR)) . '.php';
+        require($file);
+    }
+
+    public function init() {
+        spl_autoload_register(array($this, 'autoload'));
+    }
+
+    public function debug() {
+        error_reporting( E_ALL );
+        ini_set('display_errors', 1);
+    }
 }
+
+$blog = new Blog();
+$blog->init();
+$blog->debug();
 
 //Define an easy to reference folder root
 define('PROJECT_ROOT', __DIR__);
@@ -35,9 +50,9 @@ foreach ($controllers as $controllerClass) {
 	 * @var AbstractController $controllerClass
 	 */
 	//Get the action from the controller
-	$action = $controllerClass::getAction($url);
+    $action = $controllerClass::getAction($url);
 
-	if ($action !== null) {
+    if ($action !== null) {
 		//Found an action, let's use it!
 
 		//Instantiate new class
@@ -60,3 +75,4 @@ if (!isset($functionName)) {
 	$controller = new ErrorController();
 	echo $controller->doNotFound($url);
 }
+
